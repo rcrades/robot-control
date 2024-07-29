@@ -456,6 +456,19 @@
       },
       "lastMaintenance": "2024-06-04",
       "imageUrl": ""
+    },
+    {
+      "id": "HRM051",
+      "name": "SlackBot",
+      "model": "SF-Sanfran32",
+      "status": "active",
+      "battery": 22,
+      "location": {
+        "lat": 0,
+        "lng": 0
+      },
+      "lastMaintenance": "2024-02-14",
+      "imageUrl": ""
     }
   ]
 }
