@@ -21,7 +21,7 @@ const Home: React.FC = () => {
 
   const fetchRobots = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/robots');
+      const response = await fetch('/api/robots');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -51,7 +51,7 @@ const Home: React.FC = () => {
   const handleSaveNewRobot = async (newRobot: Omit<Robot, 'id'>) => {
     console.log('Attempting to save new robot:', newRobot);
     try {
-      const response = await fetch('http://localhost:3001/api/robots', {
+      const response = await fetch('/api/robots', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
