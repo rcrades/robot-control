@@ -16,11 +16,13 @@ const RobotList: React.FC<RobotListProps> = ({ onSelectRobot, searchTerm, robots
   );
 
   return (
-    <div className={`w-1/4 bg-gray-800 text-white overflow-y-auto ${className}`}>
-      <h2 className="text-xl font-bold p-4">Robots ({filteredRobots.length})</h2>
-      {filteredRobots.map((robot) => (
-        <RobotListCard key={robot.id} robot={robot} onSelectRobot={onSelectRobot} />
-      ))}
+    <div className={`w-80 bg-gray-900 text-white overflow-y-auto p-4 ${className}`}>
+      <h2 className="text-xl font-bold mb-4">Robots ({filteredRobots.length})</h2>
+      <ul>
+        {filteredRobots.map((robot) => (
+          <RobotListCard key={robot.id} robot={robot} onSelectRobot={onSelectRobot} />
+        ))}
+      </ul>
     </div>
   );
 }

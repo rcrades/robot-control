@@ -26,10 +26,7 @@ const RobotDetails: React.FC<RobotDetailsProps> = ({
       {isAddingRobot ? (
         <AddRobot onSave={onSaveNewRobot} onCancel={onCancelAddRobot} />
       ) : robot ? (
-        <>
-          <h2 className="text-2xl font-bold mb-4">{robot.name}</h2>
-          <RobotDetailsCard robot={robot} onDelete={onDeleteRobot} />
-        </>
+        <RobotDetailsCard robot={robot} onDelete={onDeleteRobot} />
       ) : (
         <RobotNotSelected />
       )}

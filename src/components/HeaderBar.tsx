@@ -12,7 +12,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({ onAddRobot, onSearch }) => {
   };
 
   return (
-    <header className="bg-purple-600 text-white p-4 z-20 relative">
+    <header className="bg-gradient-to-r from-purple-700 to-purple-500 text-white p-4 z-20 relative">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <button 
@@ -22,7 +22,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({ onAddRobot, onSearch }) => {
           >
             <FaHome />
           </button>
-          <h1 className="text-2xl font-bold">ROBOT CONTROL</h1>
+          <h1 className="text-3xl font-extrabold tracking-wider font-orbitron">ROBOT CONTROL</h1>
           <button
             onClick={onAddRobot}
             className="bg-white text-purple-600 p-2 rounded-full hover:bg-purple-100 transition-colors"
