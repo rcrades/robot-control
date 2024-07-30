@@ -78,7 +78,7 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 
 ## API and server
-- codebase has a pages/api/robots.ts file that is used to fetch data from the server, but currently the json is stored in a facility that is read-only; as a result we can currently read data via the API but can not write to. We are now working on migration to vercel kv which will enable us to write to the json file.
+- codebase has a pages/api/kv-robots.ts file that is used to fetch data from the server, but currently the json is stored in a facility that is read-only; as a result we can currently read data via the API but can not write to. We are now working on migration to vercel kv which will enable us to write to the json file.
 - to get that working I'll need to run npx ts-node scripts/init-kv.ts in the terinal.
 - Vercel KV has already provided you with a `.env.development.local` file containing the necessary environment variables. This file should be in your project root.
 - When using these variables in your code, you'll typically use KV_REST_API_URL and KV_REST_API_TOKEN for REST API operations, and KV_URL for Redis client operations.
@@ -87,9 +87,9 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 ## Future Steps for KV Integration
 
-1. Update `pages/api/robots.ts`:
+1. Update `pages/api/kv-robots.ts`:
    - This file currently uses the local JSON file. It should be updated to use Vercel KV for all CRUD operations.
-   - Status = to do
+   - Status = complete
 
 2. Review and update `src/components/AddRobot.tsx`:
    - Ensure it's using the new KV-based API endpoint for adding robots.
@@ -136,8 +136,10 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
     - Status = to do
 
 13. Other Items
-    - Update pages/api/robots.ts to use Vercel KV instead of the local file system.
+    - Update pages/api/kv-robots.ts to use Vercel KV instead of the local file system.
 Test your GET and POST routes to ensure they're working with the KV database.
 Update any other parts of your application that were previously interacting with the local JSON file to now use the API routes that interact with KV.
 
 Remember to test thoroughly after each update to ensure the application works as expected with the new KV-based data storage.
+
+Note: The API endpoint for robot operations has been changed from `/api/robots` to `/api/kv-robots`. Ensure all components are updated to use the new endpoint.

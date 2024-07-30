@@ -1,5 +1,6 @@
 import React from 'react';
-import { FaHome, FaPlus } from 'react-icons/fa';
+import { FaHome, FaPlus, FaSearch } from 'react-icons/fa';
+import Search from '../subcomponents/Search';
 
 interface HeaderBarProps {
   onAddRobot: () => void;
@@ -23,23 +24,20 @@ const HeaderBar: React.FC<HeaderBarProps> = ({ onAddRobot, onSearch }) => {
             <FaHome />
           </button>
           <h1 className="text-3xl font-extrabold tracking-wider font-orbitron">ROBOT CONTROL</h1>
+        </div>
+        <div className="flex items-center space-x-2">
+          <div className="relative">
+            <Search onSearch={onSearch} />
+            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          </div>
           <button
             onClick={onAddRobot}
-            className="bg-white text-purple-600 p-2 rounded-full hover:bg-purple-100 transition-colors"
+            className="bg-purple-600 text-white p-2 rounded-full hover:bg-purple-700 transition-colors"
             aria-label="Add Robot"
           >
             <FaPlus />
           </button>
         </div>
-        <div className="flex-1 max-w-xl mx-4">
-          <input
-            type="text"
-            placeholder="Search robots..."
-            onChange={(e) => onSearch(e.target.value)}
-            className="w-full p-2 rounded bg-white text-gray-800 placeholder-gray-500"
-          />
-        </div>
-        <button className="text-2xl">☰</button>
       </div>
     </header>
   );

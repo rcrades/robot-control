@@ -26,7 +26,7 @@ const Home: React.FC = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      setRobots(data || []);
+      setRobots(data);
     } catch (error) {
       console.error('Error fetching robots:', error);
     }
@@ -49,6 +49,7 @@ const Home: React.FC = () => {
   };
 
   const handleSaveNewRobot = async (newRobot: Omit<Robot, 'id'>) => {
+    console.log('Attempting to save new robot:', newRobot);
     try {
       const response = await fetch('/api/kv-robots', {
         method: 'POST',
@@ -57,10 +58,14 @@ const Home: React.FC = () => {
         },
         body: JSON.stringify(newRobot),
       });
+      console.log('Response status:', response.status);
+      const responseText = await response.text();
+      console.log('Response text:', responseText);
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}, body: ${responseText}`);
       }
-      const savedRobot = await response.json();
+      const savedRobot = JSON.parse(responseText);
+      console.log('Saved robot:', savedRobot);
       setRobots([...robots, savedRobot]);
       setIsAddingRobot(false);
       setSelectedRobot(null);
@@ -78,7 +83,7 @@ const Home: React.FC = () => {
 
   const handleDeleteRobot = async (id: string) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/robots/${id}`, {
+      const response = await fetch(`/api/kv-robots/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -89,6 +94,26 @@ const Home: React.FC = () => {
       setSelectedLocation(null);
     } catch (error) {
       console.error('Error deleting robot:', error);
+    }
+  };
+
+  const handleUpdateRobot = async (updatedRobot: Robot) => {
+    try {
+      const response = await fetch(`/api/kv-robots/${updatedRobot.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedRobot),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const updatedRobotData = await response.json();
+      setRobots(robots.map(robot => robot.id === updatedRobotData.id ? updatedRobotData : robot));
+      setSelectedRobot(updatedRobotData);
+    } catch (error) {
+      console.error('Error updating robot:', error);
     }
   };
 
@@ -114,8 +139,9 @@ const Home: React.FC = () => {
           robot={selectedRobot}
           isAddingRobot={isAddingRobot}
           onSaveNewRobot={handleSaveNewRobot}
-          onCancelAddRobot={() => setIsAddingRobot(false)}
+          onCancelAddRobot={handleCancelAddRobot}
           onDeleteRobot={handleDeleteRobot}
+          onUpdateRobot={handleUpdateRobot}
           className="w-1/4 z-10"
         />
       </div>
