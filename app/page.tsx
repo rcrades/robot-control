@@ -21,12 +21,12 @@ const Home: React.FC = () => {
 
   const fetchRobots = async () => {
     try {
-      const response = await fetch('/api/robots');
+      const response = await fetch('/api/kv-robots');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      setRobots(data);
+      setRobots(data || []);
     } catch (error) {
       console.error('Error fetching robots:', error);
     }
@@ -49,23 +49,18 @@ const Home: React.FC = () => {
   };
 
   const handleSaveNewRobot = async (newRobot: Omit<Robot, 'id'>) => {
-    console.log('Attempting to save new robot:', newRobot);
     try {
-      const response = await fetch('/api/robots', {
+      const response = await fetch('/api/kv-robots', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(newRobot),
       });
-      console.log('Response status:', response.status);
-      const responseText = await response.text();
-      console.log('Response text:', responseText);
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}, body: ${responseText}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const savedRobot = JSON.parse(responseText);
-      console.log('Saved robot:', savedRobot);
+      const savedRobot = await response.json();
       setRobots([...robots, savedRobot]);
       setIsAddingRobot(false);
       setSelectedRobot(null);

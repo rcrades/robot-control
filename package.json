@@ -1,23 +1,27 @@
 {
   "name": "robot-dashboard",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "init-kv": "node --loader ts-node/esm scripts/init-kv.ts"
   },
   "dependencies": {
+    "@vercel/kv": "^2.0.0",
+    "autoprefixer": "^8.4.40",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "leaflet": "^1.9.4",
     "next": "latest",
-    "autoprefixer": "^8.4.40",
     "postcss": "^8.4.40",
-    "tailwindcss": "^3.4.7",
     "react": "latest",
     "react-dom": "latest",
     "react-icons": "^5.2.1",
     "react-leaflet": "^4.2.1",
+    "tailwindcss": "^3.4.7",
     "typescript": "latest"
   },
   "devDependencies": {
@@ -25,6 +29,7 @@
     "@types/node": "22.0.0",
     "@types/react": "latest",
     "@types/react-dom": "latest",
-    "@types/react-leaflet": "^3.0.0"
+    "@types/react-leaflet": "^3.0.0",
+    "ts-node": "^10.9.2"
   }
 }

@@ -44,12 +44,6 @@ The Robot Dashboard is divided into four main sections:
     - The panel is initially hidden and expands when a robot is selected from the list or map.
     - Users can close the panel to return to the full map view.
 
-### Code References
-
-- **Header Bar**: Defined in `index.html` (startLine: 13, endLine: 28) and styled in `styles.css` (startLine: 108, endLine: 157).
-- **Robot List (Left Sidebar)**: Defined in `index.html` (startLine: 31, endLine: 36) and styled in `styles.css` (startLine: 51, endLine: 64).
-- **Map (Center)**: Defined in `index.html` (startLine: 37, endLine: 39) and styled in `styles.css` (startLine: 66, endLine: 71).
-- **Robot Info Panel (Right Sidebar)**: Defined in `index.html` (startLine: 40, endLine: 47) and styled in `styles.css` (startLine: 83, endLine: 97).
 
 This layout ensures a user-friendly interface for monitoring and controlling robots in real-time, providing quick access to essential information and controls.
 
@@ -69,17 +63,81 @@ Our mapping system is a core feature of the Robot Dashboard, offering:
 4. User Interaction: Operators can send commands back to the robots through the interface.
 
 ## Technologies Used
-- Frontend: HTML5, CSS3, JavaScript
-- Backend: None (Static site)
-- Database: None (Static JSON files)
-- WebSocket for real-time communication
+- TBD
 
 ## Getting Started
-- if local, run `python3 -m http.server 8000`
-- if deployed, navigate to `https://robot-dashboard-eight.vercel.app/`
+- if local, run vercel dev
+- if deployed, navigate to https://robot-control-coral.vercel.app/
 
 ## Contributing
 Please read CONTRIBUTING.md for details on our code of conduct and the process for submitting pull requests.
 
 ## License
 This project is licensed under the MIT License - see the LICENSE.md file for details.
+
+
+
+## API and server
+- codebase has a pages/api/robots.ts file that is used to fetch data from the server, but currently the json is stored in a facility that is read-only; as a result we can currently read data via the API but can not write to. We are now working on migration to vercel kv which will enable us to write to the json file.
+- to get that working I'll need to run npx ts-node scripts/init-kv.ts in the terinal.
+- Vercel KV has already provided you with a `.env.development.local` file containing the necessary environment variables. This file should be in your project root.
+- When using these variables in your code, you'll typically use KV_REST_API_URL and KV_REST_API_TOKEN for REST API operations, and KV_URL for Redis client operations.
+
+
+
+## Future Steps for KV Integration
+
+1. Update `pages/api/robots.ts`:
+   - This file currently uses the local JSON file. It should be updated to use Vercel KV for all CRUD operations.
+   - Status = to do
+
+2. Review and update `src/components/AddRobot.tsx`:
+   - Ensure it's using the new KV-based API endpoint for adding robots.
+   - Status = to do
+
+3. Update `src/components/RobotDetails.tsx`:
+   - If it has any direct data manipulation, ensure it's using the KV-based API.
+   - Status = to do
+
+4. Review `src/components/RobotList.tsx`:
+   - Confirm it's fetching data from the new KV-based API endpoint.
+   - Status = complete
+
+5. Check `src/components/Map.tsx`:
+   - If it's fetching or updating robot locations, ensure it's using the KV-based API.
+   - Status = to do
+
+6. Update any utility functions or services:
+   - Look for any files in `src/utils` or `src/services` that might be handling data operations and update them to use the KV-based API.
+   - Status = to do
+
+7. Review and update error handling:
+   - Ensure all components and API routes have appropriate error handling for KV operations.
+   - Status = to do
+
+8. Update tests:
+   - Any unit or integration tests that mock API calls will need to be updated to reflect the new KV-based API structure.
+   - Status = to do
+
+9. Create migration script:
+   - Develop a script to migrate existing data from the JSON file to Vercel KV, and then run it.
+   - Status = complete
+
+10. Update documentation:
+    - Ensure all documentation reflects the new KV-based data storage and API structure.
+    - Status = to do
+
+11. Environment variable management:
+    - Ensure all necessary environment variables are set up in your Vercel project settings for production deployment.
+    - Status = complete
+
+12. Performance optimization:
+    - After implementation, monitor and optimize KV usage to ensure efficient data retrieval and storage.
+    - Status = to do
+
+13. Other Items
+    - Update pages/api/robots.ts to use Vercel KV instead of the local file system.
+Test your GET and POST routes to ensure they're working with the KV database.
+Update any other parts of your application that were previously interacting with the local JSON file to now use the API routes that interact with KV.
+
+Remember to test thoroughly after each update to ensure the application works as expected with the new KV-based data storage.
