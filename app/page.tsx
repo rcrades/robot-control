@@ -21,7 +21,7 @@ const Home: React.FC = () => {
 
   const fetchRobots = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/robots');
+      const response = await fetch('/api/kv-robots');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -51,7 +51,7 @@ const Home: React.FC = () => {
   const handleSaveNewRobot = async (newRobot: Omit<Robot, 'id'>) => {
     console.log('Attempting to save new robot:', newRobot);
     try {
-      const response = await fetch('http://localhost:3001/api/robots', {
+      const response = await fetch('/api/kv-robots', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ const Home: React.FC = () => {
 
   const handleDeleteRobot = async (id: string) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/robots/${id}`, {
+      const response = await fetch(`/api/kv-robots/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -94,6 +94,26 @@ const Home: React.FC = () => {
       setSelectedLocation(null);
     } catch (error) {
       console.error('Error deleting robot:', error);
+    }
+  };
+
+  const handleUpdateRobot = async (updatedRobot: Robot) => {
+    try {
+      const response = await fetch(`/api/kv-robots/${updatedRobot.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedRobot),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const updatedRobotData = await response.json();
+      setRobots(robots.map(robot => robot.id === updatedRobotData.id ? updatedRobotData : robot));
+      setSelectedRobot(updatedRobotData);
+    } catch (error) {
+      console.error('Error updating robot:', error);
     }
   };
 
@@ -119,8 +139,9 @@ const Home: React.FC = () => {
           robot={selectedRobot}
           isAddingRobot={isAddingRobot}
           onSaveNewRobot={handleSaveNewRobot}
-          onCancelAddRobot={() => setIsAddingRobot(false)}
+          onCancelAddRobot={handleCancelAddRobot}
           onDeleteRobot={handleDeleteRobot}
+          onUpdateRobot={handleUpdateRobot}
           className="w-1/4 z-10"
         />
       </div>
