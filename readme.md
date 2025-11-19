@@ -1,10 +1,12 @@
 # Robot Dashboard
 
 ## To Run
-This setup allows you to:
-1. Run the frontend with npm run dev
-2. Run the backend with npm run backend
-3. Run both concurrently with npm run dev:all
+This setup allows you to run the full stack application (frontend and API) with a single command:
+
+1. Run the application with `npm run dev`
+2. The app will be available at `http://localhost:3000`
+
+Note: If you need to initialize the KV store, run `npm run init-kv`.
 
 
 ## Overview
