@@ -3,7 +3,12 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { Robot } from '../../src/types';
 
 async function getAllRobots(): Promise<Robot[]> {
-  return await kv.get<Robot[]>('robots') || [];
+  try {
+    return await kv.get<Robot[]>('robots') || [];
+  } catch {
+    console.warn('KV store unavailable, returning empty robot list');
+    return [];
+  }
 }
 
 async function getRobotById(id: string): Promise<Robot | undefined> {
@@ -97,6 +102,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   } catch (error) {
     console.error('Error in API route:', error);
-    res.status(500).json({ message: 'Internal server error', error: (error as Error).message });
+    const message = (error as Error).message;
+    if (message === 'fetch failed' || message.includes('ENOTFOUND')) {
+      res.status(503).json({ message: 'Database unavailable. Please check your KV store configuration.' });
+    } else {
+      res.status(500).json({ message: 'Internal server error', error: message });
+    }
   }
 }

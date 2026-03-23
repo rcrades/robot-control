@@ -60,11 +60,21 @@ const RobotList: React.FC<RobotListProps> = ({ onSelectRobot, searchTerm, robots
           </button>
         )}
       </div>
-      <ul>
-        {filteredRobots.map((robot) => (
-          <RobotListCard key={robot.id} robot={robot} onSelectRobot={onSelectRobot} />
-        ))}
-      </ul>
+      {filteredRobots.length === 0 ? (
+        <div className="text-center text-gray-500 py-8">
+          <p className="text-sm">
+            {robots.length === 0
+              ? 'No robots found. The database may be unavailable.'
+              : 'No robots match the current filters.'}
+          </p>
+        </div>
+      ) : (
+        <ul>
+          {filteredRobots.map((robot) => (
+            <RobotListCard key={robot.id} robot={robot} onSelectRobot={onSelectRobot} />
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
